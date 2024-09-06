@@ -5,6 +5,7 @@
       <text class="title">title: {{ title }}</text>
     </view>
     <view class="title">env: {{ env }}</view>
+    <view class="title"> {{ $t('common.confirm') }}</view>
   </view>
 </template>
 
