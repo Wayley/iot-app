@@ -1,14 +1,10 @@
 <template>
-  <view class="page"> <view class="t"> Mine </view> </view>
+  <view>
+    <view class="status-bar-placeholder" />
+    Mine
+  </view>
 </template>
 
 <script setup lang="ts"></script>
 
-<style scoped lang="scss">
-.page {
-  padding-top: 100px;
-  .t {
-    color: red;
-  }
-}
-</style>
+<style scoped lang="scss"></style>
