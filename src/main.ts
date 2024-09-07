@@ -1,4 +1,4 @@
-import i18n from '@/locale';
+import i18n from '@/i18n';
 import { createPinia } from 'pinia';
 import { createSSRApp } from 'vue';
 import App from './App.vue';
