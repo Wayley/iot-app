@@ -17,6 +17,7 @@ const env = import.meta.env.VITE_ENV_VARIABLE;
 
 <style>
 .content {
+  padding-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;

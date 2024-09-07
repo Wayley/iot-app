@@ -1,16 +1,47 @@
 {
 	"pages": [
 		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
+			"path": "pages/index/index"
+		},
+		{
+			"path": "pages/device/index"
+		},
+		{
+			"path": "pages/mine/index"
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"app-plus": {
+			"titleNView": false
+		}
+	},
+	"tabBar": {
+		"color": "#8a8a8a",
+		"selectedColor": "#02c1ee",
+		"borderStyle": "#f7f7f7",
+		"backgroundColor": "#fff",
+		"fontSize": "12px",
+		"iconWidth": "30px",
+		"height": "70px",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/device/index",
+				"text": "设备"
+			},
+			{
+				"pagePath": "pages/mine/index",
+				"text": "我的"
+			}
+		]
+	},
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^(.*)": "@/components/$1.vue"
+		}
 	}
 }
