@@ -1,4 +1,4 @@
-import { BleDeviceInfo } from '@/modules/BluetoothManager/BleDeviceInfo';
+import { BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
 import { JbdDevicePlatformInfo } from './JbdDevicePlatformInfo';
 
 /**
