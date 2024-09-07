@@ -1,7 +1,7 @@
 /**
- * JBD设备-产品类型
+ * 设备-产品类型
  */
-export const enum JbdDeviceProductEnum {
+export const enum DeviceProductEnum {
   /* 储能主机 */
   ES_HOST = '03',
 
@@ -18,4 +18,4 @@ export const enum JbdDeviceProductEnum {
   BLE = 'BLE',
 }
 
-export default JbdDeviceProductEnum;
+export default DeviceProductEnum;

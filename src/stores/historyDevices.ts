@@ -1,8 +1,8 @@
-import { JbdDeviceInfo } from '@/modules/JbdDevice/JbdDeviceInfo';
+import { DeviceInfo } from '@/modules/Device/DeviceInfo';
 import { defineStore } from 'pinia';
 
 interface State {
-  historyDevices: JbdDeviceInfo[];
+  historyDevices: DeviceInfo[];
 }
 export const useHistoryDevicesStore = defineStore('historyDevices', {
   state: (): State => ({
