@@ -1,6 +1,7 @@
 {
   "name": "iot-app",
   "version": "0.0.1",
+  "private": "true",
   "scripts": {
     "dev:h5": "uni",
     "dev:android": "uni -p app-android",
