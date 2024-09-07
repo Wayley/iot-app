@@ -1,11 +1,14 @@
 <template>
-  <view class="page"> Mine </view>
+  <view class="page"> <view class="t"> Mine </view> </view>
 </template>
 
 <script setup lang="ts"></script>
 
-<style scoped>
+<style scoped lang="scss">
 .page {
   padding-top: 100px;
+  .t {
+    color: red;
+  }
 }
 </style>
