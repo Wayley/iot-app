@@ -1,4 +1,4 @@
-import { BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
+import { type BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
 import { DevicePlatformInfo } from './DevicePlatformInfo';
 
 /**

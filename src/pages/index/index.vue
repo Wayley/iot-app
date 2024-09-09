@@ -2,16 +2,19 @@
   <view>
     <view class="status-bar-placeholder" />
     <view class="content">
-      <view>TITLE: {{ title }}</view>
       <view>ENV: {{ env }}</view>
+
+      <button @click="goDiscoveryPage">+</button>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-const title = ref('Hello');
 const env = import.meta.env.VITE_ENV_VARIABLE;
+
+function goDiscoveryPage() {
+  uni.navigateTo({ url: '/pages/discovery/index' });
+}
 </script>
 <style scoped lang="scss">
 .content {

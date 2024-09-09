@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "pages/mine/index"
+		},
+		{
+			"path": "pages/discovery/index"
 		}
 	],
 	"globalStyle": {

@@ -3,7 +3,7 @@ export interface BleDeviceInfo {
   name?: string;
   localName?: string;
   RSSI?: number;
-  advertisData?: ArrayBuffer;
+  advertisData?: any[];
   advertisServiceUUIDs?: any[];
   serviceData?: any[];
 }
