@@ -1,17 +1,20 @@
 <template>
-  <view>
-    <view class="status-bar-placeholder" />
+  <GlobalProvider ref="globalProvider">
+    <StatusBarPlaceholder />
     Mine
-  </view>
+  </GlobalProvider>
 </template>
 
 <script setup lang="ts">
+import GlobalProvider from '@/components/GlobalProvider.vue';
 import BleManager from '@/modules/BleManager';
 import System from '@/modules/System';
 import SystemURLEnum from '@/modules/System/enums/SystemURLEnum';
 import { useBluetoothAdapterStateStore } from '@/stores/bluetoothAdapterState';
 import { onShow } from '@dcloudio/uni-app';
+import { ref } from 'vue';
 
+const globalProvider = ref<InstanceType<typeof GlobalProvider> | null>(null);
 const bleManager = BleManager.getInstance(['2222']);
 
 const store = useBluetoothAdapterStateStore();

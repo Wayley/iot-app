@@ -14,6 +14,8 @@ const { config } = useConfig();
 
 export interface ToastOpenOptions {
   content: string;
+  duration?: number;
+  complete?: () => void;
 }
 
 const show = ref(false);
@@ -25,7 +27,10 @@ function open(options: ToastOpenOptions) {
   show.value = false;
   content.value = options.content;
   show.value = true;
-  setTimeout(() => (show.value = false), config.value.TOAST_DURATION);
+  setTimeout(() => {
+    show.value = false;
+    options.complete?.();
+  }, options.duration ?? config.value.TOAST_DURATION);
 }
 </script>
 <style lang="scss" scoped>

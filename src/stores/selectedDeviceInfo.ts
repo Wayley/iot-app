@@ -2,10 +2,10 @@ import { type DeviceInfo } from '@/modules/Device/DeviceInfo';
 import { defineStore } from 'pinia';
 
 interface State {
-  historyDevices: DeviceInfo[];
+  selectedDeviceInfo: DeviceInfo | null;
 }
-export const useHistoryDevicesStore = defineStore('historyDevices', {
+export const useSelectedDeviceInfoStore = defineStore('selectedDeviceInfo', {
   state: (): State => ({
-    historyDevices: [],
+    selectedDeviceInfo: null,
   }),
 });

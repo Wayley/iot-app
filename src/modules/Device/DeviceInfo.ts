@@ -9,4 +9,10 @@ import { DevicePlatformInfo } from './DevicePlatformInfo';
  * - 蓝牙广播出来的设备信息
  * - 平台注册/上报的设备信息
  */
-export interface DeviceInfo extends DevicePlatformInfo, BleDeviceInfo {}
+export interface DeviceInfo extends DevicePlatformInfo, BleDeviceInfo {
+  /** 是否WiFi在线 */
+  isWiFiOnline?: boolean;
+
+  /** 是否蓝牙已连接 */
+  isBTConnected?: boolean;
+}
