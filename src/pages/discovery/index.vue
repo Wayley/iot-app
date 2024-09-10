@@ -1,36 +1,47 @@
 <template>
-  <view>
-    <view class="status-bar-placeholder" />
+  <GlobalProvider ref="globalProvider">
+    <StatusBarPlaceholder />
+
     <view class="content">
       <button @click="init">Refreah</button>
 
       <view>
-        <button @click="() => connect(i)" v-for="(device, i) in list">{{ device.deviceId }}</button>
+        <button @click="() => connect(bleDeviceInfo)" v-for="bleDeviceInfo in discoveredDevices">{{ bleDeviceInfo.deviceId }}</button>
       </view>
     </view>
-  </view>
+  </GlobalProvider>
 </template>
 
 <script setup lang="ts">
+import GlobalProvider from '@/components/GlobalProvider.vue';
 import BleManager from '@/modules/BleManager';
 import { type BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
 import { type BleManagerError } from '@/modules/BleManager/BleManagerError';
 import System from '@/modules/System';
 import SystemURLEnum from '@/modules/System/enums/SystemURLEnum';
-import { onLoad, onShow } from '@dcloudio/uni-app';
+import { useDiscoveredDevicesStore } from '@/stores/discoveredDevices';
+import { useSelectedDeviceInfoStore } from '@/stores/selectedDeviceInfo';
+import { onHide, onLoad, onShow } from '@dcloudio/uni-app';
 import { Ref, ref } from 'vue';
 
-const bleManager = BleManager.getInstance(['0000FF00-0000-1000-8000-00805F9B34FB']);
+const globalProvider = ref<InstanceType<typeof GlobalProvider> | null>(null);
+const bleManager = BleManager.getInstance();
 
-const list: Ref<BleDeviceInfo[]> = ref([]);
+const discoveredDevices: Ref<BleDeviceInfo[]> = ref([]);
 
+const store = useDiscoveredDevicesStore();
+store.$subscribe((mutation, state) => {
+  discoveredDevices.value = [...state.discoveredDevices];
+});
 onLoad(() => {
   init();
 });
 onShow(() => {
   console.warn('onShow');
 });
-
+onHide(() => {
+  console.warn('onHide');
+});
 /**
  * 1. 检测蓝牙适配器是否打开
  *    - 未打开需要跳转到系统蓝牙设置页
@@ -52,45 +63,52 @@ async function init() {
       if (cancel) uni.navigateBack();
     }
   }
-  const permissions = ['android.permission.ACCESS_FINE_LOCATION', 'android.permission.BLUETOOTH_SCAN'];
-  plus.android.requestPermissions(
-    permissions,
-    async ({ deniedAlways, deniedPresent, granted }) => {
-      // 权限被永久拒绝 - 弹框提示需要权限 - 引导用户打开设置页面开启权限
-      if (deniedAlways.length > 0) {
-        const { confirm, cancel } = await uni.showModal({ title: '蓝牙位置权限未授权', content: '是否进行授权?' });
-        if (confirm) uni.openAppAuthorizeSetting();
-        if (cancel) uni.navigateBack();
-      }
-      // 权限被临时拒绝 - 再次申请
-      if (deniedPresent.length > 0) {
-        plus.android.requestPermissions(
-          deniedPresent,
-          ({ granted }) => granted.length == deniedPresent.length && startScan(),
-          (e) => console.error('Request Permissions error:', e)
-        );
-      }
+  // 蓝牙权限检测
+  if (System.isAndroid) {
+    const Build = plus.android.importClass('android.os.Build');
+    let permissions = ['android.permission.ACCESS_FINE_LOCATION'];
 
-      if (granted.length == permissions.length) startScan();
-    },
-    (e) => console.error('Request Permissions error:', e)
-  );
+    // @ts-ignore
+    if (Build.VERSION.SDK_INT >= 31) permissions.push('android.permission.BLUETOOTH_SCAN');
+    plus.android.requestPermissions(
+      permissions,
+      async ({ deniedAlways, deniedPresent, granted }) => {
+        // 权限被永久拒绝 - 弹框提示需要权限 - 引导用户打开设置页面开启权限
+        if (deniedAlways.length > 0) {
+          const { confirm, cancel } = await uni.showModal({ title: '蓝牙位置权限未授权', content: '是否进行授权?' });
+          if (confirm) uni.openAppAuthorizeSetting();
+          if (cancel) uni.navigateBack();
+        }
+        // 权限被临时拒绝 - 再次申请
+        if (deniedPresent.length > 0) {
+          plus.android.requestPermissions(
+            deniedPresent,
+            ({ granted }) => granted.length == deniedPresent.length && startScan(),
+            (e) => console.error('Request Permissions error:', e)
+          );
+        }
+
+        if (granted.length == permissions.length) startScan();
+      },
+      (e) => console.error('Request Permissions error:', e)
+    );
+  }
 }
 
 async function startScan() {
   console.warn('开始扫描');
   try {
     await bleManager.startScan();
-    setTimeout(async () => await bleManager.stopScan(), 5000);
+    setTimeout(async () => await bleManager.stopScan(), 2500);
   } catch (e) {
     console.error(e);
   }
 }
 
-function connect(index: number) {}
-</script>
-<style scoped lang="scss">
-.content {
-  font-size: 32rpx;
+function connect(selectedDeviceInfo: BleDeviceInfo) {
+  useSelectedDeviceInfoStore().$patch({ selectedDeviceInfo });
+  uni.switchTab({ url: '/pages/device/index' });
+  // TODO:停止扫描
 }
-</style>
+</script>
+<style scoped lang="scss"></style>

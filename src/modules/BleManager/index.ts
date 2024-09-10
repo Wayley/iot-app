@@ -1,6 +1,7 @@
 import System from '@/modules/System';
 import { useBluetoothAdapterStateStore } from '@/stores/bluetoothAdapterState';
-
+import { useDiscoveredDevicesStore } from '@/stores/discoveredDevices';
+const SERVICES = ['0000FF00-0000-1000-8000-00805F9B34FB'];
 function log(v1: any, ...args: any[]) {
   if (true) console.log(v1, ...args);
 }
@@ -10,7 +11,7 @@ export class BleManager {
   #services: string[];
 
   constructor(services?: string[]) {
-    this.#services = services ?? [];
+    this.#services = services ?? SERVICES;
     this
       .#addListeners /*启动全局监听*/
       ();
@@ -62,21 +63,24 @@ export class BleManager {
 
     uni.onBluetoothAdapterStateChange(({ available, discovering }) => {
       const store = useBluetoothAdapterStateStore();
-      console.log('监听-adapter变化', { available, discovering }, store);
-      if (store.available == available && store.discovering == discovering) {
-        console.log('相同的变化');
-        return;
-      }
+      if (store.available == available && store.discovering == discovering) return;
 
       let _state = { available, discovering };
-      if (/*关闭适配器的时候 标记需要重新初始化*/ store.inited && !available) {
-        Object.assign(_state, { inited: false });
-      }
+      if (/*关闭适配器的时候 标记需要重新初始化*/ store.inited && !available) Object.assign(_state, { inited: false });
+
       store.$patch(_state);
     });
 
     uni.onBluetoothDeviceFound(({ devices }) => {
       console.log('监听-发现了设备', devices);
+      const [bleDeviceInfo] = devices;
+      const store = useDiscoveredDevicesStore();
+      const i = store.discoveredDevices.findIndex((o) => o.deviceId == bleDeviceInfo.deviceId);
+      if (i > -1) {
+        store.$patch((state) => (state.discoveredDevices[i] = bleDeviceInfo));
+        return;
+      }
+      store.$patch((state) => state.discoveredDevices.push(bleDeviceInfo));
     });
   }
 }
