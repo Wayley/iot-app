@@ -5,15 +5,16 @@ export class Interval extends Timer<Interval> {
     super(delay, callback);
   }
 
-  start(delay = this._delay, callback?: (ctx: Interval) => void): void {
+  start(delay?: number, callback?: (ctx: Interval) => void): void {
+    super.start(delay, callback);
     this._timer = setInterval(() => {
       if (!this._excuted) this._excuted = true;
-      this._callback?.(this);
-      callback?.(this);
+      this._register.excute();
     }, delay);
   }
 
   clear(): void {
+    super.clear();
     this._timer && clearInterval(this._timer);
   }
 }

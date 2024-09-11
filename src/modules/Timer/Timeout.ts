@@ -5,15 +5,16 @@ export class Timeout extends Timer<Timeout> {
     super(delay, callback);
   }
 
-  start(delay = this._delay, callback?: (ctx: Timeout) => void): void {
+  start(delay?: number, callback?: (ctx: Timeout) => void): void {
+    super.start(delay, callback);
     this._timer = setTimeout(() => {
       this._excuted = true;
-      this._callback?.(this);
-      callback?.(this);
-    }, delay);
+      this._register.excute();
+    }, this._delay);
   }
 
   clear(): void {
+    super.clear();
     this._timer && clearTimeout(this._timer);
   }
 }
