@@ -1,17 +1,13 @@
 import System from '@/modules/System';
 import { useBluetoothAdapterStateStore } from '@/stores/bluetoothAdapterState';
 import { useDiscoveredDevicesStore } from '@/stores/discoveredDevices';
-const SERVICES = ['0000FF00-0000-1000-8000-00805F9B34FB'];
-function log(v1: any, ...args: any[]) {
-  if (true) console.log(v1, ...args);
-}
 
 export class BleManager {
   static #instance: BleManager | null = null;
   #services: string[];
 
-  constructor(services?: string[]) {
-    this.#services = services ?? SERVICES;
+  constructor(services: string[] = []) {
+    this.#services = services;
     this
       .#addListeners /*启动全局监听*/
       ();
@@ -27,7 +23,7 @@ export class BleManager {
       const store = useBluetoothAdapterStateStore();
       try {
         if (/*之前已初始化成功*/ store.inited) return resolve(true);
-        log(`蓝牙模块初始化 services=${JSON.stringify(this.#services)}`);
+        console.warn(`蓝牙模块初始化 services=${JSON.stringify(this.#services)}`);
         const res = await uni.openBluetoothAdapter();
         store.$patch({ available: true, inited: true });
         return resolve(res);
@@ -46,7 +42,7 @@ export class BleManager {
     return await uni.getBluetoothAdapterState();
   }
   async startScan() {
-    log(`开始扫描 services=${JSON.stringify(this.#services)}`);
+    console.warn(`开始扫描 services=${JSON.stringify(this.#services)}`);
     return await uni.startBluetoothDevicesDiscovery({
       services: this.#services,
       allowDuplicatesKey /** Set `True` for ios issue */: System.isIOS,
@@ -54,12 +50,12 @@ export class BleManager {
   }
 
   async stopScan() {
-    log(`停止扫描 services=${JSON.stringify(this.#services)}`);
+    console.warn(`停止扫描 services=${JSON.stringify(this.#services)}`);
     return await uni.stopBluetoothDevicesDiscovery();
   }
 
   #addListeners() {
-    log(`添加全局监听 services=${JSON.stringify(this.#services)}`);
+    console.warn(`添加全局监听 services=${JSON.stringify(this.#services)}`);
 
     uni.onBluetoothAdapterStateChange(({ available, discovering }) => {
       const store = useBluetoothAdapterStateStore();

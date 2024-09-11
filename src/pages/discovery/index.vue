@@ -19,13 +19,15 @@ import { type BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
 import { type BleManagerError } from '@/modules/BleManager/BleManagerError';
 import System from '@/modules/System';
 import SystemURLEnum from '@/modules/System/enums/SystemURLEnum';
+import { Timeout } from '@/modules/Timer/Timeout';
 import { useDiscoveredDevicesStore } from '@/stores/discoveredDevices';
 import { useSelectedDeviceInfoStore } from '@/stores/selectedDeviceInfo';
-import { onHide, onLoad, onShow } from '@dcloudio/uni-app';
-import { Ref, ref } from 'vue';
+import { onLoad } from '@dcloudio/uni-app';
+import { onUnmounted, Ref, ref } from 'vue';
 
 const globalProvider = ref<InstanceType<typeof GlobalProvider> | null>(null);
-const bleManager = BleManager.getInstance();
+const bleManager = BleManager.getInstance(['0000FF00-0000-1000-8000-00805F9B34FB']);
+const stopScanTimer = new Timeout(2500, async () => await bleManager.stopScan());
 
 const discoveredDevices: Ref<BleDeviceInfo[]> = ref([]);
 
@@ -33,14 +35,13 @@ const store = useDiscoveredDevicesStore();
 store.$subscribe((mutation, state) => {
   discoveredDevices.value = [...state.discoveredDevices];
 });
-onLoad(() => {
-  init();
-});
-onShow(() => {
-  console.warn('onShow');
-});
-onHide(() => {
-  console.warn('onHide');
+onLoad(() => init());
+onUnmounted(async () => {
+  if (!stopScanTimer.excuted) {
+    console.warn('onUnmounted-', stopScanTimer.excuted);
+    stopScanTimer.clear();
+    await bleManager.stopScan();
+  }
 });
 /**
  * 1. 检测蓝牙适配器是否打开
@@ -57,6 +58,11 @@ async function init() {
   } catch (e) {
     console.error(e);
     const { code } = e as BleManagerError;
+    if (/*iOS中未授权*/ System.isIOS && code == 10000) {
+      const { confirm, cancel } = await uni.showModal({ title: '蓝牙位置权限未授权', content: '是否进行授权?' });
+      if (confirm) uni.openAppAuthorizeSetting();
+      if (cancel) uni.navigateBack();
+    }
     if (/*蓝牙适配器不可用*/ code == 10001) {
       const { confirm, cancel } = await uni.showModal({ title: '蓝牙适配器不可用', content: '是否打开蓝牙适配器开关?' });
       if (/*打开系统蓝牙设置*/ confirm) System.openSystemSetting(SystemURLEnum.BLUETOOTH);
@@ -92,6 +98,8 @@ async function init() {
       },
       (e) => console.error('Request Permissions error:', e)
     );
+  } else if (System.isIOS) {
+    startScan();
   }
 }
 
@@ -99,7 +107,7 @@ async function startScan() {
   console.warn('开始扫描');
   try {
     await bleManager.startScan();
-    setTimeout(async () => await bleManager.stopScan(), 2500);
+    stopScanTimer.start();
   } catch (e) {
     console.error(e);
   }
@@ -108,7 +116,6 @@ async function startScan() {
 function connect(selectedDeviceInfo: BleDeviceInfo) {
   useSelectedDeviceInfoStore().$patch({ selectedDeviceInfo });
   uni.switchTab({ url: '/pages/device/index' });
-  // TODO:停止扫描
 }
 </script>
 <style scoped lang="scss"></style>
