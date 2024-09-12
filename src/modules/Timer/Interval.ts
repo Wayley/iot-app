@@ -18,3 +18,5 @@ export class Interval extends Timer<Interval> {
     this._timer && clearInterval(this._timer);
   }
 }
+
+export default Interval;

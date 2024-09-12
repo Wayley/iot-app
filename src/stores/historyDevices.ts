@@ -9,3 +9,5 @@ export const useHistoryDevicesStore = defineStore('historyDevices', {
     historyDevices: [],
   }),
 });
+
+export default useHistoryDevicesStore;

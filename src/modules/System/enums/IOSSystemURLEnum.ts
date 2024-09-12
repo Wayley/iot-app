@@ -2,6 +2,7 @@ export const enum IOSSystemURLEnum {
   BLUETOOTH = 'App-prefs:Bluetooth',
   WIFI = 'App-prefs:WIFI',
 }
+
 export default IOSSystemURLEnum;
 
 // 打开通用设置: App-Prefs:root=General

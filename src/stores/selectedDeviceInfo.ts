@@ -9,3 +9,5 @@ export const useSelectedDeviceInfoStore = defineStore('selectedDeviceInfo', {
     selectedDeviceInfo: null,
   }),
 });
+
+export default useSelectedDeviceInfoStore;

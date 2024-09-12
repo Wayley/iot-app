@@ -17,3 +17,5 @@ export interface DeviceInfo extends DevicePlatformInfo, BleDeviceInfo {
   /** 是否蓝牙已连接 */
   isBTConnected?: boolean;
 }
+
+export default DeviceInfo;

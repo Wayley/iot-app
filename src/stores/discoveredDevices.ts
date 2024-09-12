@@ -9,3 +9,5 @@ export const useDiscoveredDevicesStore = defineStore('discoveredDevices', {
     discoveredDevices: [],
   }),
 });
+
+export default useDiscoveredDevicesStore;

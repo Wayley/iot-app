@@ -1,3 +1,6 @@
+/**
+ * 蓝牙API返回的原始设备信息
+ */
 export interface BleDeviceInfo {
   deviceId: string;
   name?: string;
@@ -7,3 +10,5 @@ export interface BleDeviceInfo {
   advertisServiceUUIDs?: any[];
   serviceData?: any[];
 }
+
+export default BleDeviceInfo;

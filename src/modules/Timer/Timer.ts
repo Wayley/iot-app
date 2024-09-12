@@ -24,3 +24,5 @@ export class Timer<T> implements ITimer<T> {
     this._register.clear();
   }
 }
+
+export default Timer;

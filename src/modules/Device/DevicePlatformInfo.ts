@@ -17,3 +17,5 @@ export interface DevicePlatformInfo {
   moduleTypeKey?: DeviceModuleEnum;
   productKey: DeviceProductEnum;
 }
+
+export default DevicePlatformInfo;

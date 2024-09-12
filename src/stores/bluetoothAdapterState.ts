@@ -12,3 +12,5 @@ export const useBluetoothAdapterStateStore = defineStore('bluetoothAdapterState'
     inited: false,
   }),
 });
+
+export default useBluetoothAdapterStateStore;

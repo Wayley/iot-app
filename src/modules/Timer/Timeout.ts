@@ -18,3 +18,5 @@ export class Timeout extends Timer<Timeout> {
     this._timer && clearTimeout(this._timer);
   }
 }
+
+export default Timeout;
