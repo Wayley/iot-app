@@ -1,4 +1,4 @@
-import Register from '../Register';
+import Register from '@/modules/Register';
 import type ITimer from './interfaces/ITimer';
 
 export class Timer<T> implements ITimer<T> {

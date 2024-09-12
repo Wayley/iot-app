@@ -1,4 +1,4 @@
-import { Timer } from './Timer';
+import Timer from './Timer';
 
 export class Timeout extends Timer<Timeout> {
   constructor(delay?: number, callback?: (ctx: Timeout) => void) {

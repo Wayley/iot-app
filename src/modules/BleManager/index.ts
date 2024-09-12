@@ -1,6 +1,6 @@
 import System from '@/modules/System';
-import { useBluetoothAdapterStateStore } from '@/stores/bluetoothAdapterState';
-import { useDiscoveredDevicesStore } from '@/stores/discoveredDevices';
+import useBluetoothAdapterStateStore from '@/stores/bluetoothAdapterState';
+import useDiscoveredDevicesStore from '@/stores/discoveredDevices';
 
 export class BleManager {
   static #instance: BleManager | null = null;

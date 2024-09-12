@@ -1,5 +1,5 @@
-import type { BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
-import type { DevicePlatformInfo } from './DevicePlatformInfo';
+import type DevicePlatformInfo from './DevicePlatformInfo';
+import type DiscoveredDeviceInfo from './DiscoveredDeviceInfo';
 
 /**
  * 设备信息
@@ -10,7 +10,7 @@ import type { DevicePlatformInfo } from './DevicePlatformInfo';
  * - 平台注册/上报的设备信息
  * - 运行时状态信息(蓝牙连接状态/WiFi在线状态)
  */
-export interface DeviceInfo extends DevicePlatformInfo, BleDeviceInfo {
+export interface DeviceInfo extends DevicePlatformInfo, DiscoveredDeviceInfo {
   /** 是否WiFi在线 */
   isWiFiOnline?: boolean;
 
