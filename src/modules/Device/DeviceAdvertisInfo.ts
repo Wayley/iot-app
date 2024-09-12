@@ -1,5 +1,5 @@
-import DeviceModuleEnum from './enums/DeviceModuleEnum';
-import DeviceProductEnum from './enums/DeviceProductEnum';
+import type DeviceModuleEnum from './enums/DeviceModuleEnum';
+import type DeviceProductEnum from './enums/DeviceProductEnum';
 
 /**
  * 设备-蓝牙广播信息

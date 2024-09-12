@@ -1,4 +1,4 @@
-import { type DeviceInfo } from '@/modules/Device/DeviceInfo';
+import type { DeviceInfo } from '@/modules/Device/DeviceInfo';
 import { defineStore } from 'pinia';
 
 interface State {

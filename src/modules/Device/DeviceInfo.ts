@@ -1,5 +1,5 @@
-import { type BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
-import { type DevicePlatformInfo } from './DevicePlatformInfo';
+import type { BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
+import type { DevicePlatformInfo } from './DevicePlatformInfo';
 
 /**
  * 设备信息

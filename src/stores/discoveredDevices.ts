@@ -1,4 +1,4 @@
-import { type BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
+import type { BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
 import { defineStore } from 'pinia';
 
 interface State {

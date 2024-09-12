@@ -7,12 +7,12 @@
 
 <script setup lang="ts">
 import GlobalProvider from '@/components/GlobalProvider.vue';
-import { type DeviceInfo } from '@/modules/Device/DeviceInfo';
+import type { DeviceInfo } from '@/modules/Device/DeviceInfo';
 import { useHistoryDevicesStore } from '@/stores/historyDevices';
 import { useSelectedDeviceInfoStore } from '@/stores/selectedDeviceInfo';
 import { onHide, onShow } from '@dcloudio/uni-app';
 
-import { nextTick, Ref, ref } from 'vue';
+import { nextTick, type Ref, ref } from 'vue';
 
 const globalProvider = ref<InstanceType<typeof GlobalProvider> | null>(null);
 const deviceInfo: Ref<DeviceInfo | null> = ref(null);

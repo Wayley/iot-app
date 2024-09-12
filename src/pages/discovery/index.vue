@@ -15,8 +15,8 @@
 <script setup lang="ts">
 import GlobalProvider from '@/components/GlobalProvider.vue';
 import BleManager from '@/modules/BleManager';
-import { type BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
-import { type BleManagerError } from '@/modules/BleManager/BleManagerError';
+import type { BleDeviceInfo } from '@/modules/BleManager/BleDeviceInfo';
+import type { BleManagerError } from '@/modules/BleManager/BleManagerError';
 import Permission from '@/modules/Permission';
 import PermissionTypeEnum from '@/modules/Permission/enums/PermissionTypeEnum';
 import System from '@/modules/System';
@@ -25,7 +25,7 @@ import { Timeout } from '@/modules/Timer/Timeout';
 import { useDiscoveredDevicesStore } from '@/stores/discoveredDevices';
 import { useSelectedDeviceInfoStore } from '@/stores/selectedDeviceInfo';
 import { onLoad } from '@dcloudio/uni-app';
-import { onUnmounted, Ref, ref } from 'vue';
+import { onUnmounted, type Ref, ref } from 'vue';
 
 const globalProvider = ref<InstanceType<typeof GlobalProvider> | null>(null);
 const bleManager = BleManager.getInstance(['0000FF00-0000-1000-8000-00805F9B34FB']);
