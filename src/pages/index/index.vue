@@ -21,7 +21,7 @@ import type DeviceInfo from '@/modules/Device/DeviceInfo';
 import useHistoryDevicesStore from '@/stores/historyDevices';
 import useSelectedDeviceInfoStore from '@/stores/selectedDeviceInfo';
 import { ref } from 'vue';
-
+ 
 const env = import.meta.env.VITE_ENV_VARIABLE;
 const globalProvider = ref<InstanceType<typeof GlobalProvider> | null>(null);
 const store = useHistoryDevicesStore();
